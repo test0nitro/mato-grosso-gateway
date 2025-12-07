@@ -2,6 +2,8 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import SearchBar from "@/components/SearchBar";
 import BiomesSection from "@/components/BiomesSection";
+import LatestNews from "@/components/LatestNews";
+import EventsCarousel from "@/components/EventsCarousel";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -12,6 +14,8 @@ const Index = () => {
         <Hero />
         <SearchBar />
         <BiomesSection />
+        <EventsCarousel />
+        <LatestNews />
       </main>
       <Footer />
     </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import biomePantanal from "@/assets/biome-pantanal.jpg";
 import biomeCerrado from "@/assets/biome-cerrado.jpg";
@@ -52,9 +53,9 @@ const BiomesSection = () => {
         {/* Biomes Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {biomes.map((biome, index) => (
-            <a
+            <Link
               key={biome.id}
-              href={`#${biome.id}`}
+              to={`/biomas/${biome.id}`}
               className="group relative rounded-2xl overflow-hidden aspect-[3/4] hover-lift"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -88,7 +89,7 @@ const BiomesSection = () => {
                   </span>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

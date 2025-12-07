@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Leaf, Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,7 @@ import ReservationForm from "./ReservationForm";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,21 +24,31 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
-    { name: "Início", href: "#" },
-    { name: "Cidades", href: "#cidades" },
-    { name: "Mapa", href: "#mapa" },
-    { name: "Galeria", href: "#galeria" },
-    { name: "Blog", href: "#blog" },
-    { name: "Contato", href: "#contato" },
+    { name: "Início", href: "/" },
+    { name: "Cidades", href: "/cidades" },
+    { name: "Mapa", href: "/mapa" },
+    { name: "Galeria", href: "/galeria" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contato", href: "/contato" },
   ];
 
   const biomasDropdown = [
-    { name: "Pantanal", href: "#pantanal" },
-    { name: "Cerrado", href: "#cerrado" },
-    { name: "Amazônia", href: "#amazonia" },
-    { name: "Araguaia", href: "#araguaia" },
+    { name: "Pantanal", href: "/biomas/pantanal" },
+    { name: "Cerrado", href: "/biomas/cerrado" },
+    { name: "Amazônia", href: "/biomas/amazonia" },
+    { name: "Araguaia", href: "/biomas/araguaia" },
   ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
+  };
 
   return (
     <header
@@ -49,59 +61,65 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition-colors">
               <Leaf className="w-5 h-5 text-accent" />
             </div>
             <span className="text-xl font-bold text-foreground">
               Turismo<span className="text-accent">MT</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
-            <a
-              href="#"
-              className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-accent transition-colors"
+            <Link
+              to="/"
+              className={`px-4 py-2 text-sm font-medium transition-colors ${
+                isActive("/") ? "text-accent" : "text-foreground/80 hover:text-accent"
+              }`}
             >
               Início
-            </a>
+            </Link>
 
             {/* Biomas Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-accent transition-colors flex items-center gap-1">
+              <DropdownMenuTrigger className={`px-4 py-2 text-sm font-medium transition-colors flex items-center gap-1 ${
+                location.pathname.startsWith("/biomas") ? "text-accent" : "text-foreground/80 hover:text-accent"
+              }`}>
                 Biomas <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-popover border-border">
                 {biomasDropdown.map((item) => (
                   <DropdownMenuItem key={item.name} asChild>
-                    <a href={item.href} className="cursor-pointer">
+                    <Link to={item.href} className="cursor-pointer">
                       {item.name}
-                    </a>
+                    </Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
 
             {navLinks.slice(1).map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-accent transition-colors"
+                to={link.href}
+                className={`px-4 py-2 text-sm font-medium transition-colors ${
+                  isActive(link.href) ? "text-accent" : "text-foreground/80 hover:text-accent"
+                }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Right side actions */}
           <div className="flex items-center gap-4">
-            <a
-              href="#"
+            <Link
+              to="/contato"
               className="hidden md:block text-sm font-medium text-foreground/80 hover:text-accent transition-colors"
             >
               Entrar / Cadastrar
-            </a>
+            </Link>
 
             <Dialog>
               <DialogTrigger asChild>
@@ -132,25 +150,31 @@ const Header = () => {
           <div className="lg:hidden py-4 border-t border-border/50 animate-fade-up">
             <nav className="flex flex-col gap-2">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  className="px-4 py-3 text-foreground/80 hover:text-accent hover:bg-muted/50 rounded-lg transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  to={link.href}
+                  className={`px-4 py-3 rounded-lg transition-colors ${
+                    isActive(link.href) 
+                      ? "text-accent bg-muted/50" 
+                      : "text-foreground/80 hover:text-accent hover:bg-muted/50"
+                  }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
               <div className="px-4 py-2 text-sm font-medium text-muted-foreground">Biomas</div>
               {biomasDropdown.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
-                  className="px-8 py-2 text-foreground/70 hover:text-accent hover:bg-muted/50 rounded-lg transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  to={item.href}
+                  className={`px-8 py-2 rounded-lg transition-colors ${
+                    location.pathname === item.href
+                      ? "text-accent bg-muted/50"
+                      : "text-foreground/70 hover:text-accent hover:bg-muted/50"
+                  }`}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <Dialog>
                 <DialogTrigger asChild>

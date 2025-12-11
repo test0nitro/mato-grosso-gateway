@@ -1,18 +1,19 @@
+import { Link } from "react-router-dom";
 import { Leaf, Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   const quickLinks = [
-    { name: "Pantanal", href: "#pantanal" },
-    { name: "Cerrado", href: "#cerrado" },
-    { name: "Amazônia", href: "#amazonia" },
-    { name: "Araguaia", href: "#araguaia" },
+    { name: "Pantanal", href: "/biomas/pantanal" },
+    { name: "Cerrado", href: "/biomas/cerrado" },
+    { name: "Amazônia", href: "/biomas/amazonia" },
+    { name: "Araguaia", href: "/biomas/araguaia" },
   ];
 
   const destinations = [
-    { name: "Cuiabá", href: "#" },
-    { name: "Chapada dos Guimarães", href: "#" },
-    { name: "Nobres", href: "#" },
-    { name: "Alta Floresta", href: "#" },
+    { name: "Cuiabá", href: "/cidades" },
+    { name: "Chapada dos Guimarães", href: "/cidades" },
+    { name: "Nobres", href: "/cidades" },
+    { name: "Alta Floresta", href: "/cidades" },
   ];
 
   const socialLinks = [
@@ -28,14 +29,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <a href="#" className="flex items-center gap-3 mb-6">
+            <Link to="/" className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
                 <Leaf className="w-6 h-6 text-accent" />
               </div>
               <span className="text-xl font-bold text-foreground">
                 Turismo<span className="text-accent">MT</span>
               </span>
-            </a>
+            </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Descubra as belezas naturais de Mato Grosso. Turismo sustentável que 
               preserva a natureza enquanto proporciona experiências inesquecíveis.
@@ -61,12 +62,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-accent transition-colors text-sm"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -78,12 +79,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {destinations.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-accent transition-colors text-sm"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -121,12 +122,12 @@ const Footer = () => {
             © 2025 Turismo Mato Grosso. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">
+            <Link to="/contato" className="text-muted-foreground hover:text-accent transition-colors text-sm">
               Política de Privacidade
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-accent transition-colors text-sm">
+            </Link>
+            <Link to="/contato" className="text-muted-foreground hover:text-accent transition-colors text-sm">
               Termos de Uso
-            </a>
+            </Link>
           </div>
         </div>
       </div>

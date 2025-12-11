@@ -26,10 +26,10 @@ const biomesData: Record<string, {
     description: "O Pantanal mato-grossense é um santuário de vida selvagem reconhecido pela UNESCO como Patrimônio Natural da Humanidade. Com mais de 140 mil km², abriga a maior concentração de fauna das Américas, incluindo a majestosa onça-pintada, jacarés, capivaras e mais de 650 espécies de aves.",
     image: biomePantanal,
     animals: [
-      { name: "Onça-pintada", image: "https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=300&h=200&fit=crop" },
-      { name: "Jacaré-do-pantanal", image: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=300&h=200&fit=crop" },
-      { name: "Tuiuiú", image: "https://images.unsplash.com/photo-1555169062-013468b47731?w=300&h=200&fit=crop" },
-      { name: "Arara-azul", image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=300&h=200&fit=crop" },
+      { name: "Onça-pintada (Jaguar)", image: "https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=300&h=200&fit=crop" },
+      { name: "Tuiuiú (Jabiru)", image: "https://images.unsplash.com/photo-1555169062-013468b47731?w=300&h=200&fit=crop" },
+      { name: "Capivara", image: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=300&h=200&fit=crop" },
+      { name: "Jacaré-do-pantanal", image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=300&h=200&fit=crop" },
     ],
     cities: [
       { name: "Poconé", description: "Porta de entrada da Transpantaneira" },
@@ -46,10 +46,10 @@ const biomesData: Record<string, {
     description: "O Cerrado mato-grossense guarda tesouros como a Chapada dos Guimarães, com suas cachoeiras monumentais e formações rochosas milenares. É considerado a savana mais biodiversa do planeta, com flora e fauna únicas adaptadas ao clima seco.",
     image: biomeCerrado,
     animals: [
-      { name: "Lobo-guará", image: "https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=300&h=200&fit=crop" },
-      { name: "Tamanduá-bandeira", image: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=300&h=200&fit=crop" },
-      { name: "Ema", image: "https://images.unsplash.com/photo-1557401622-cfc0aa5d146c?w=300&h=200&fit=crop" },
+      { name: "Lobo-guará (Maned Wolf)", image: "https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=300&h=200&fit=crop" },
+      { name: "Tamanduá-bandeira (Giant Anteater)", image: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=300&h=200&fit=crop" },
       { name: "Seriema", image: "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=300&h=200&fit=crop" },
+      { name: "Ema", image: "https://images.unsplash.com/photo-1557401622-cfc0aa5d146c?w=300&h=200&fit=crop" },
     ],
     cities: [
       { name: "Chapada dos Guimarães", description: "Cachoeiras e mirantes" },
@@ -66,7 +66,7 @@ const biomesData: Record<string, {
     description: "A porção amazônica de Mato Grosso oferece experiências únicas de ecoturismo, com rios imensos, floresta densa e uma biodiversidade incomparável. A região de Alta Floresta é mundialmente conhecida para observação de aves e expedições científicas.",
     image: biomeAmazonia,
     animals: [
-      { name: "Harpia", image: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=300&h=200&fit=crop" },
+      { name: "Harpia (Harpy Eagle)", image: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=300&h=200&fit=crop" },
       { name: "Boto-cor-de-rosa", image: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=300&h=200&fit=crop" },
       { name: "Macaco-aranha", image: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=300&h=200&fit=crop" },
       { name: "Sucuri", image: "https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=300&h=200&fit=crop" },
@@ -86,8 +86,8 @@ const biomesData: Record<string, {
     description: "O Rio Araguaia forma uma das maiores praias fluviais do Brasil durante a seca, criando um cenário paradisíaco. A região é famosa pela pesca esportiva, festivais de praia e o contato com comunidades ribeirinhas tradicionais.",
     image: biomeAraguaia,
     animals: [
-      { name: "Tucunaré", image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop" },
-      { name: "Pirarucu", image: "https://images.unsplash.com/photo-1559253254-0ac8d8d310cf?w=300&h=200&fit=crop" },
+      { name: "Boto-do-araguaia", image: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=300&h=200&fit=crop" },
+      { name: "Pirarucu", image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop" },
       { name: "Tartaruga-da-amazônia", image: "https://images.unsplash.com/photo-1559253254-0ac8d8d310cf?w=300&h=200&fit=crop" },
       { name: "Garça-real", image: "https://images.unsplash.com/photo-1590161181804-4e01a4295c1c?w=300&h=200&fit=crop" },
     ],

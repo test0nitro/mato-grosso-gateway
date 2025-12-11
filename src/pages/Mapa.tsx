@@ -1,68 +1,99 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Navigation, Info, ChevronRight } from "lucide-react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import L from "leaflet";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import "leaflet/dist/leaflet.css";
+
+// Fix for default marker icons in Leaflet with Vite
+const customIcon = new L.Icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+const selectedIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const pointsOfInterest = [
   {
     id: 1,
-    name: "Pantanal Matogrossense",
-    type: "Bioma",
-    description: "A maior planície alagável do mundo, lar de onças, jacarés e centenas de espécies de aves.",
-    coordinates: { lat: -17.5, lng: -57.4 },
+    name: "Cuiabá",
+    type: "Capital & Portal do Pantanal",
+    description: "A capital do estado, porta de entrada para o Pantanal e repleta de história, cultura e gastronomia típica.",
+    coordinates: { lat: -15.60, lng: -56.09 },
   },
   {
     id: 2,
     name: "Chapada dos Guimarães",
-    type: "Parque Nacional",
-    description: "Cachoeiras espetaculares, formações rochosas e o centro geodésico da América do Sul.",
-    coordinates: { lat: -15.4, lng: -55.7 },
+    type: "Cachoeiras e Vistas",
+    description: "Paraíso de cachoeiras monumentais, trilhas ecológicas e o famoso Mirante do centro geodésico da América do Sul.",
+    coordinates: { lat: -15.46, lng: -55.75 },
   },
   {
     id: 3,
-    name: "Nobres",
-    type: "Destino Ecoturístico",
-    description: "Águas cristalinas perfeitas para flutuação e mergulho em rios de água doce.",
-    coordinates: { lat: -14.7, lng: -56.3 },
+    name: "Poconé",
+    type: "Transpantaneira",
+    description: "Início da famosa Estrada Transpantaneira, com 147km e 122 pontes de madeira, ideal para observação de fauna.",
+    coordinates: { lat: -16.26, lng: -56.62 },
   },
   {
     id: 4,
     name: "Alta Floresta",
-    type: "Portal da Amazônia",
-    description: "Observação de aves, pesca esportiva e expedições na floresta amazônica.",
-    coordinates: { lat: -9.8, lng: -56.0 },
+    type: "Amazônia Meridional",
+    description: "Capital do birdwatching no Brasil, portal da Amazônia com floresta densa e biodiversidade incomparável.",
+    coordinates: { lat: -9.87, lng: -56.08 },
   },
   {
     id: 5,
-    name: "Cuiabá",
-    type: "Capital",
-    description: "Cidade histórica com arquitetura colonial, gastronomia típica e vida cultural.",
-    coordinates: { lat: -15.6, lng: -56.0 },
+    name: "Barra do Garças",
+    type: "Serra do Roncador / Araguaia",
+    description: "Portal do Araguaia com águas termais, o Vale dos Sonhos e praias fluviais espetaculares na seca.",
+    coordinates: { lat: -15.89, lng: -52.26 },
   },
   {
     id: 6,
-    name: "Rio Araguaia",
-    type: "Destino de Pesca",
-    description: "Praias fluviais, pesca esportiva e o famoso Festival de Praia.",
-    coordinates: { lat: -15.8, lng: -51.8 },
+    name: "Nobres",
+    type: "Flutuação em Águas Cristalinas",
+    description: "Destino de ecoturismo com rios de água cristalina perfeitos para flutuação e mergulho.",
+    coordinates: { lat: -14.72, lng: -56.33 },
   },
   {
     id: 7,
     name: "Cáceres",
-    type: "Cidade Histórica",
-    description: "Capital da pesca, Festival Internacional de Pesca e patrimônio histórico.",
-    coordinates: { lat: -16.0, lng: -57.6 },
-  },
-  {
-    id: 8,
-    name: "Transpantaneira",
-    type: "Estrada-Parque",
-    description: "147km de estrada com 122 pontes de madeira, ideal para observação de fauna.",
-    coordinates: { lat: -16.5, lng: -56.8 },
+    type: "Capital Nacional da Pesca",
+    description: "Cidade histórica às margens do Rio Paraguai, famosa pelo Festival Internacional de Pesca.",
+    coordinates: { lat: -16.07, lng: -57.68 },
   },
 ];
+
+// Component to handle map fly to selected point
+const FlyToLocation = ({ coordinates }: { coordinates: { lat: number; lng: number } | null }) => {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (coordinates) {
+      map.flyTo([coordinates.lat, coordinates.lng], 10, {
+        duration: 1.5,
+      });
+    }
+  }, [coordinates, map]);
+  
+  return null;
+};
 
 const Mapa = () => {
   const [selectedPoint, setSelectedPoint] = useState<typeof pointsOfInterest[0] | null>(null);
@@ -133,57 +164,51 @@ const Mapa = () => {
               </div>
             </div>
 
-            {/* Map Placeholder */}
+            {/* Interactive Map */}
             <div className="lg:col-span-2 order-1 lg:order-2">
               <div className="bg-card rounded-2xl border border-border overflow-hidden h-[400px] lg:h-[680px] relative">
-                {/* Stylized Map Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20">
-                  {/* Grid Pattern */}
-                  <div 
-                    className="absolute inset-0 opacity-20"
-                    style={{
-                      backgroundImage: `
-                        linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
-                        linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
-                      `,
-                      backgroundSize: '40px 40px'
-                    }}
+                <MapContainer
+                  center={[-12.64, -55.42]}
+                  zoom={6}
+                  className="h-full w-full z-0"
+                  scrollWheelZoom={true}
+                >
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  
-                  {/* Map Markers */}
-                  {pointsOfInterest.map((point, index) => (
-                    <button
+                  <FlyToLocation coordinates={selectedPoint?.coordinates || null} />
+                  {pointsOfInterest.map((point) => (
+                    <Marker
                       key={point.id}
-                      onClick={() => setSelectedPoint(point)}
-                      className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-                        selectedPoint?.id === point.id ? "scale-125 z-10" : "hover:scale-110"
-                      }`}
-                      style={{
-                        top: `${20 + (index % 4) * 20}%`,
-                        left: `${15 + (index % 5) * 18}%`,
+                      position={[point.coordinates.lat, point.coordinates.lng]}
+                      icon={selectedPoint?.id === point.id ? selectedIcon : customIcon}
+                      eventHandlers={{
+                        click: () => setSelectedPoint(point),
                       }}
                     >
-                      <div className={`relative ${
-                        selectedPoint?.id === point.id ? "animate-pulse" : ""
-                      }`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          selectedPoint?.id === point.id 
-                            ? "bg-accent shadow-lg" 
-                            : "bg-primary/80"
-                        }`}>
-                          <MapPin className="w-4 h-4 text-primary-foreground" />
+                      <Popup>
+                        <div className="p-2 min-w-[200px]">
+                          <h3 className="font-bold text-foreground text-base mb-1">{point.name}</h3>
+                          <p className="text-accent text-xs font-medium mb-2">{point.type}</p>
+                          <p className="text-muted-foreground text-sm">{point.description}</p>
                         </div>
-                        {selectedPoint?.id === point.id && (
-                          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-accent rotate-45" />
-                        )}
-                      </div>
-                    </button>
+                      </Popup>
+                    </Marker>
                   ))}
+                </MapContainer>
+
+                {/* Map Legend */}
+                <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-md rounded-lg p-3 border border-border z-[1000]">
+                  <div className="flex items-center gap-2 text-sm">
+                    <Info className="w-4 h-4 text-accent" />
+                    <span className="text-muted-foreground">Clique nos marcadores</span>
+                  </div>
                 </div>
 
                 {/* Selected Point Info */}
                 {selectedPoint && (
-                  <div className="absolute bottom-4 left-4 right-4 bg-background/95 backdrop-blur-md rounded-xl p-4 border border-border animate-fade-up">
+                  <div className="absolute bottom-4 left-4 right-4 bg-background/95 backdrop-blur-md rounded-xl p-4 border border-border animate-fade-up z-[1000]">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
                         <MapPin className="w-6 h-6 text-accent" />
@@ -205,14 +230,6 @@ const Mapa = () => {
                     </div>
                   </div>
                 )}
-
-                {/* Map Legend */}
-                <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-md rounded-lg p-3 border border-border">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Info className="w-4 h-4 text-accent" />
-                    <span className="text-muted-foreground">Clique nos marcadores</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
